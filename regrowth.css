@@ -4,11 +4,12 @@ body {
     /*background-color: black; */
 }
 #board {
-    width:540px;
-    height: 540px;
+    width:98vw; /*540px origionally*/
+    height: 80vh;
     background-color: green;
 
     margin: 0 auto;
+    padding:0;
     display: grid;
     grid-template-columns: auto auto auto;
     grid-template-rows: 50px auto;
@@ -16,13 +17,4 @@ body {
 }
 div{
     border:solid;
-}
-.tile {
-    background-color: blue;
-    /* width: 100px; */
-    /* height: 100px; */
-}
-.unit {
-    width: 100px;
-    height: 100px;
 }
