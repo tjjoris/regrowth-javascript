@@ -31,13 +31,14 @@ function setGame () {
         tile[i].div.clicked = function clicked(){
             if (this.isShip = true){
                 this.isShip = false;
-                this.ship.src = ".circle.png";
+                this.ship.src = "./circle.png";
             }
         }
         //event listener for clicking tile.
         tile[i].div.addEventListener("click", tile[i].div.clicked);
         board.appendChild(tile[i].div);
         tile[i].div.ship = document.createElement("img");
+        tile[i].div.class = "unit";
         tile[i].div.ship.src = "./ship.png";
         tile[i].div.appendChild(tile[i].div.ship);
     }

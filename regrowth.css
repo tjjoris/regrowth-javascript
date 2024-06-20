@@ -19,4 +19,10 @@ div{
 }
 .tile {
     background-color: blue;
+    /* width: 100px; */
+    /* height: 100px; */
+}
+.unit {
+    width: 100px;
+    height: 100px;
 }
