@@ -9,15 +9,17 @@ window.onload = function() {
 }
 
 let tile = new Array;
+let indicator = new Array;
 //sets up the game.
 function setGame () {
 
     //create grid hp bars
     for (let i=0; i<3; i++){
-        let tile = document.createElement("div");
-        tile.id = "health" + i.toString();
-        tile.class = "health";
-        board.appendChild(tile);
+        indicator[i] = document.createElement("div");
+        indicator[i].id = "health" + i.toString();
+        indicator[i].className = "indicator";
+        board.appendChild(indicator[i]);
+        indicator[i].innerHTML = "100";
 
     }
     //create grid units
@@ -27,7 +29,7 @@ function setGame () {
         // tile[i] = new Object();
         tile[i] = document.createElement("div");
         tile[i].id = "ship" + i.toString();
-        tile[i].class = "tile";
+        tile[i].classList.add("tile");
         tile[i].isShip = true;
         tile[i].buildMax = 3;
         tile[i].buildCurrent = 0;

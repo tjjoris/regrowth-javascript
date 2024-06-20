@@ -18,3 +18,7 @@ body {
 div{
     border:solid;
 }
+.indicator{
+    font-size: 2em;
+    color:white;
+}
