@@ -26,11 +26,20 @@ function setGame () {
         tile[i].div = document.createElement("div");
         tile[i].div.id = "ship" + i.toString();
         tile[i].div.class = "tile";
-        // tile.addEventListener("click", selectTile);
+        tile[i].div.isShip = true;
+        //click a ship to turn it into a circle.
+        tile[i].div.clicked = function clicked(){
+            if (this.isShip = true){
+                this.isShip = false;
+                this.ship.src = ".circle.png";
+            }
+        }
+        //event listener for clicking tile.
+        tile[i].div.addEventListener("click", tile[i].div.clicked);
         board.appendChild(tile[i].div);
-        let ship = document.createElement("img");
-        ship.src = "./ship.png";
-        tile[i].div.appendChild(ship);
+        tile[i].div.ship = document.createElement("img");
+        tile[i].div.ship.src = "./ship.png";
+        tile[i].div.appendChild(tile[i].div.ship);
     }
 }
 
