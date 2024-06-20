@@ -22,25 +22,31 @@ function setGame () {
     //create grid units
     for (let i=0; i<3; i++){
         let tile = new Array;
-        tile[i] = new Object();
-        tile[i].div = document.createElement("div");
-        tile[i].div.id = "ship" + i.toString();
-        tile[i].div.class = "tile";
-        tile[i].div.isShip = true;
+        // tile[i] = new Object();
+        tile[i] = document.createElement("div");
+        tile[i].id = "ship" + i.toString();
+        tile[i].class = "tile";
+        tile[i].isShip = true;
+        // tile[i].
         //click a ship to turn it into a circle.
-        tile[i].div.clicked = function clicked(){
-            if (this.isShip = true){
+        tile[i].clicked = function clicked(){
+            if (this.isShip == true){
                 this.isShip = false;
                 this.ship.src = "./circle.png";
             }
         }
+        tile[i].update = function update(){
+            if (this.isShip == false){
+
+            }
+        }
         //event listener for clicking tile.
-        tile[i].div.addEventListener("click", tile[i].div.clicked);
-        board.appendChild(tile[i].div);
-        tile[i].div.ship = document.createElement("img");
-        tile[i].div.class = "unit";
-        tile[i].div.ship.src = "./ship.png";
-        tile[i].div.appendChild(tile[i].div.ship);
+        tile[i].addEventListener("click", tile[i].clicked);
+        board.appendChild(tile[i]);
+        tile[i].ship = document.createElement("img");
+        tile[i].class = "unit";
+        tile[i].ship.src = "./ship.png";
+        tile[i].appendChild(tile[i].ship);
     }
 }
 
