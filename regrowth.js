@@ -83,15 +83,11 @@ function setGame () {
         }
         //add initial hp from regrowth
         tile[i].addInitialHPFromRegrowth = function addInitailHPFromRegrowth(){
-            //amount to add to current unit.
-            let hpToAddToCurrent = this.hpMax;
-            //check if hp is over max
-            if (this.hpCurrent + this.hpMax > this.hpMax){
-                //amount to add to current unit
-                hpToAddToCurrent = this.hpMax - this.hpCurrent;
-                //amount to add to other units.
-                let extraHP = this.hpMax - this.hpToAddToCurrent;
-                //the amount to heal the 1 of the 2 units in the first round.
+            //heal initial unit.
+            let extraHP = tile[i].healSingleUnit(tile[i].hpMax);
+            //extra hp to heal others.
+            if (extraHP > 0) {
+                //find half to heal a each unit.
                 let halfExtra = extraHP / 2;
                 //heal the first round.
                 extraHP = tile[i].healOtherUnits(halfExtra, i);
@@ -101,6 +97,7 @@ function setGame () {
         }
         //heal all other units.
         tile[i].healOtherUnits = function healOtherUnits(amountToHeal, indexNotToHeal){
+            console.log(amountToHeal);
             //if amount to heal is 0 do nothing
             if (amountToHeal <= 0) {
                 return;
@@ -112,22 +109,26 @@ function setGame () {
                 if (indexNotToHeal == j) { 
                     continue;
                 }
-                extraAfterHealingOhters += tile[j].healFromOtherUnit(amountToHeal);
+                extraAfterHealingOhters += tile[j].healSingleUnit(amountToHeal);
             }
             return extraAfterHealingOhters;
         }
-        //extra healing for a single unit.
-        tile[i].healFromOtherUnit = function healFromOtherUnit(amountToHeal){
-           //check amoutn to heal is greater than 0.
-            if (amountToHeal <= 0) {
-                return;
+        //heal a single unit.
+        tile[i].healSingleUnit = function healSingleUnit(amountToHeal){
+            console.log(amountToHeal)
+            //heal.
+            tile[i].hpCurrent += amountToHeal;
+            //if hp is over max:
+            if (tile[i].hpCurrent > tile[i].hpMax){
+                //save amount over max.
+                let extra = tile[i].hpCurrent - tile[i].hpMax;
+                //set current hp to max.
+                tile[i].hpCurrent = tile[i].hpMax;
+                //return extra.
+                return extra;
             }
-            this.hpCurrent += amountToHeal;
-            let extra = 0;
-            if (this.hpCurrent > this.hpMax){
-                extra = this.hpCurrent - this.hpMax;
-            }
-            return extra;
+            //return extra = 0;
+            return 0;
         }
         //event listener for clicking tile.
         tile[i].addEventListener("click", tile[i].clicked);
