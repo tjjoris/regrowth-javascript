@@ -23,27 +23,28 @@ function setGame () {
 
     }
     //create grid units
-    
-    // var tile = new Array;
     for (let i=0; i<3; i++){
-        // tile[i] = new Object();
         tile[i] = document.createElement("div");
         tile[i].id = "ship" + i.toString();
         tile[i].classList.add("tile");
         tile[i].isShip = true;
         tile[i].buildMax = 3;
         tile[i].buildCurrent = 0;
-        // tile[i].
+        tile[i].hpMax = 100;
+        tile[i].hpCurrent = this.hpMax;
         //click a ship to turn it into a circle.
         tile[i].clicked = function clicked(){
             if (this.isShip == true){
-                this.isShip = false;
-                this.ship.src = "./circle.png";
-                this.buildCurrent = 0;
+                this.beginRegrowth();
             }
         }
         //update unit.
         tile[i].update = function update(){
+            //if is unit, lower hp.
+            if (this.isShip == true){
+                this.hpCurrent -= 1;
+                return;
+            }
             //build has finisehd, turn circle into ship.
             if (this.isShip == false){
                 if (this.buildCurrent >= this.buildMax) {
@@ -56,6 +57,15 @@ function setGame () {
                 console.log(this.buildCurrent);
                 return;
             }
+            indicator[i].innerHTML = this.hpCurrent;
+        }
+        // tile[i].changeStatus
+        //begin regrowth
+        tile[i].beginRegrowth = function beginRegrowth(){
+            this.isShip = false;
+            this.ship.src = "./circle.png";
+            this.buildCurrent = 0;
+
         }
         //event listener for clicking tile.
         tile[i].addEventListener("click", tile[i].clicked);
