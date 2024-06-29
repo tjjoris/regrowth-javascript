@@ -19,7 +19,7 @@ function setGame () {
         indicator[i].id = "health" + i.toString();
         indicator[i].className = "indicator";
         board.appendChild(indicator[i]);
-        indicator[i].innerHTML = "100";
+        // indicator[i].innerHTML = "100";
 
     }
     //create grid units
@@ -30,8 +30,8 @@ function setGame () {
         tile[i].isShip = true;
         tile[i].buildMax = 3;
         tile[i].buildCurrent = 0;
-        tile[i].hpMax = 100;
-        tile[i].hpCurrent = this.hpMax;
+        tile[i].hpMax = 10000;
+        tile[i].hpCurrent = tile[i].hpMax;
         //click a ship to turn it into a circle.
         tile[i].clicked = function clicked(){
             if (this.isShip == true){
@@ -40,26 +40,33 @@ function setGame () {
         }
         //update unit.
         tile[i].update = function update(){
-            //if is unit, lower hp.
-            if (this.isShip == true){
-                this.hpCurrent -= 1;
-                return;
-            }
-            //build has finisehd, turn circle into ship.
-            if (this.isShip == false){
-                if (this.buildCurrent >= this.buildMax) {
-                    this.isShip = true;
-                    this.ship.src = "./ship.png";
-                    return;
-                }
-                //increase build counter.
-                this.buildCurrent ++;
-                console.log(this.buildCurrent);
-                return;
-            }
-            indicator[i].innerHTML = this.hpCurrent;
+            this.updateByStatus();
+            indicator[i].innerHTML = tile[i].hpCurrent.toString();
+            console.log(this.hpCurrent)
         }
-        // tile[i].changeStatus
+        tile[i].updateByStatus = function updateByStatus(){
+            if (this.isShip == true){
+                this.lowerShipHP();
+                return;
+            }
+            this.updateCircle();
+        }
+        tile[i].lowerShipHP = function lowerShipHP(){
+        //lower ship hp.
+            this.hpCurrent -= 1;
+            return;
+        }
+        tile[i].updateCircle = function updateCircle(){
+            //change to a ship.
+            if (this.buildCurrent >= this.buildMax) {
+                this.isShip = true;
+                this.ship.src = "./ship.png";
+                return;
+            }//increase build counter.
+            this.buildCurrent ++;
+            console.log(this.buildCurrent);
+            return;
+        }
         //begin regrowth
         tile[i].beginRegrowth = function beginRegrowth(){
             this.isShip = false;
