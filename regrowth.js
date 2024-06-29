@@ -37,28 +37,28 @@ function setGame () {
             }
         }
         //update unit.
-        tile[i].update = function update(){
+        tile[i].update = function update(damage){
             //this will update either version of the unit
-            this.updateByStatus();
+            this.updateByStatus(damage);
             //dispaly info for unit.
             indicator[i].innerHTML = tile[i].hpCurrent.toString();
         }
-        tile[i].updateByStatus = function updateByStatus(){
+        tile[i].updateByStatus = function updateByStatus(damage){
             //if ship, lower hp
             if (this.isShip == true){
-                this.lowerShipHP();
+                this.lowerShipHP(damage);
                 return;
             }
             //change to ship
             this.updateCircle();
         }
-        tile[i].lowerShipHP = function lowerShipHP(){
+        tile[i].lowerShipHP = function lowerShipHP(damage){
             if (tile[i].hpCurrent <= 0) {
                 this.beginRegrowth();
                 return;
             }
         //lower ship hp.
-            this.hpCurrent -= 1;
+            this.hpCurrent -= damage;
             return;
         }
         tile[i].updateCircle = function updateCircle(){
@@ -140,12 +140,22 @@ let count = 0;
 let updateUnits = function updateUnits1(){
     //game over staus:
     let gameOver = true;
+    //count extra damage for each circle.
+    let damage = 1;
+    //loop to check if circles
     for (let i=0; i<3; i++){
-        tile[i].update();
         if (tile[i].isShip == true){
             gameOver = false;
         }
+        else {
+            damage += 1;
+        } 
     }
+    //loop to update
+    for (let i=0; i<3; i++){
+        tile[i].update(damage);
+    }
+    //set game over.
     if (gameOver == true){
         clearInterval(updateInterval);
         title.innerHTML = "Game Over";
