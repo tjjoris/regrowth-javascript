@@ -5,22 +5,20 @@ window.onload = function() {
     let isUnits = [true, true, true];
     let healths = [10, 10, 10];
     let maxHealths = [10, 10, 10];
+    let title = document.getElementById("title")
+    
     setGame();
 }
-
 let tile = new Array;
 let indicator = new Array;
 //sets up the game.
 function setGame () {
-
     //create grid hp bars
     for (let i=0; i<3; i++){
         indicator[i] = document.createElement("div");
         indicator[i].id = "health" + i.toString();
         indicator[i].className = "indicator";
         board.appendChild(indicator[i]);
-        // indicator[i].innerHTML = "100";
-
     }
     //create grid units
     for (let i=0; i<3; i++){
@@ -28,9 +26,9 @@ function setGame () {
         tile[i].id = "ship" + i.toString();
         tile[i].classList.add("tile");
         tile[i].isShip = true;
-        tile[i].buildMax = 3;
+        tile[i].buildMax = 6;
         tile[i].buildCurrent = 0;
-        tile[i].hpMax = 25;
+        tile[i].hpMax = 20;
         tile[i].hpCurrent = tile[i].hpMax;
         //click a ship to turn it into a circle.
         tile[i].clicked = function clicked(){
@@ -97,7 +95,6 @@ function setGame () {
         }
         //heal all other units.
         tile[i].healOtherUnits = function healOtherUnits(amountToHeal, indexNotToHeal){
-            console.log(amountToHeal);
             //if amount to heal is 0 do nothing
             if (amountToHeal <= 0) {
                 return;
@@ -115,7 +112,6 @@ function setGame () {
         }
         //heal a single unit.
         tile[i].healSingleUnit = function healSingleUnit(amountToHeal){
-            console.log(amountToHeal)
             //heal.
             tile[i].hpCurrent += amountToHeal;
             //if hp is over max:
@@ -138,11 +134,20 @@ function setGame () {
         tile[i].ship.src = "./ship.png";
         tile[i].appendChild(tile[i].ship);
     }
-    setInterval(updateUnits, 500);
+    updateInterval = setInterval(updateUnits, 500);
 }
 let count = 0;
 let updateUnits = function updateUnits1(){
+    //game over staus:
+    let gameOver = true;
     for (let i=0; i<3; i++){
         tile[i].update();
+        if (tile[i].isShip == true){
+            gameOver = false;
+        }
+    }
+    if (gameOver == true){
+        clearInterval(updateInterval);
+        title.innerHTML = "Game Over";
     }
 }
